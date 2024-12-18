@@ -1,0 +1,438 @@
+/* iOS-like Design Color Palette */
+:root {
+    --background-color: #f2f2f7;
+    --card-background: #ffffff;
+    --primary-text: #000000;
+    --secondary-text: #8e8e93;
+    --accent-color: #007aff;
+    --delete-color: #ff3b30;
+    --border-color: #c7c7cc;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--background-color);
+    color: var(--primary-text);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background-color: var(--card-background); /* Same background as other boxes */
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px; /* Padding to give some space around the content */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for a subtle effect */
+}
+
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primary-text);
+}
+
+h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: var(--secondary-text);
+}
+
+/* Form Styling */
+.search-section,
+.add-movie-section {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--secondary-text);
+    font-size: 14px;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.input-wrapper i {
+    margin-right: 10px;
+    color: var(--secondary-text);
+}
+
+input[type="text"],
+input[type="date"] {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: var(--primary-text);
+}
+
+input[type="text"]::placeholder,
+input[type="date"]::placeholder {
+    color: var(--secondary-text);
+}
+
+/* Predefined Dropdown Styling (iOS-like) */
+datalist {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 16px;
+    max-width: 100%;
+}
+
+datalist option {
+    padding: 8px;
+    background-color: var(--card-background);
+    color: var(--primary-text);
+}
+
+datalist option:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Button Styling */
+.search-button,
+.add-button,
+.update-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover,
+.add-button:hover,
+.update-button:hover {
+    background-color: #0056b3;
+}
+
+/* Table Styling */
+.movie-list-section {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.movie-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.movie-table thead {
+    background-color: var(--background-color);
+}
+
+.movie-table th,
+.movie-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.movie-table th {
+    color: var(--secondary-text);
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+/* Edit Toggle Styling */
+.edit-toggle-container {
+    position: relative;
+}
+
+.update-movie-details summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+.update-movie-details summary::-webkit-details-marker {
+    display: none;
+}
+
+.edit-toggle {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-toggle:hover {
+    background-color: #0056b3;
+}
+
+.update-movie-details[open] .edit-toggle {
+    background-color: #0056b3;
+}
+
+.update-form {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: var(--background-color);
+    border-radius: 10px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.delete-button {
+    background-color: var(--delete-color);
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.delete-button:hover {
+    opacity: 0.9;
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: slide-up 0.3s ease;
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: var(--secondary-text);
+    cursor: pointer;
+}
+
+/* Flash Messages */
+.flash-messages {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1100;
+    width: 100%;
+    max-width: 400px;
+}
+
+.flash {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+}
+
+.flash.success {
+    background-color: #28a745;
+}
+
+.flash.error {
+    background-color: var(--delete-color);
+}
+
+/* Login and Authentication Styling */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--background-color);
+}
+
+.login-card {
+    background-color: var(--card-background);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    text-align: center;
+}
+
+.auth-form h2 {
+    margin-bottom: 20px;
+    color: var(--primary-text);
+}
+
+.auth-links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.auth-links a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.login-button,
+.signup-button,
+.reset-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover,
+.signup-button:hover,
+.reset-button:hover {
+    background-color: #0056b3;
+}
+
+/* Pagination Styling */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination-links {
+    display: flex;
+    gap: 10px;
+}
+
+.pagination-links a,
+.pagination-links span {
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--primary-text);
+    background-color: var(--background-color);
+}
+
+.pagination-links .current {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.pagination-links a:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    .movie-table {
+        font-size: 14px;
+    }
+
+    .movie-table th,
+    .movie-table td {
+        padding: 10px;
+    }
+
+    .login-card {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .auth-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Logout Button Styling (iOS-like design) */
+.logout-button {
+    padding: 12px 14px;
+    background-color: var(--delete-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    text-align: right;
+    width: 11%;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #d63027;
+}

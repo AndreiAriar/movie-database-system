@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Database - Login</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container login-container">
+        <div class="login-card">
+            <h1>Movie Database</h1>
+            
+            <!-- Login Form -->
+            <form id="login-form" action="{{ url_for('login') }}" method="post" class="auth-form">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            placeholder="Email" 
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            placeholder="Password" 
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <button type="submit" class="login-button">Login</button>
+                
+                <div class="auth-links">
+                    <a href="{{ url_for('signup') }}" class="signup-link">Create an Account</a>
+                    <a href="{{ url_for('reset_password') }}" class="forgot-password-link">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        // Auto-hide flash messages
+        (function() {
+            setTimeout(function() {
+                var flashMessages = document.querySelectorAll('.flash-messages .flash');
+                flashMessages.forEach(function(message) {
+                    message.style.transition = 'opacity 0.5s';
+                    message.style.opacity = '0';
+                    setTimeout(function() {
+                        message.remove();
+                    }, 500);
+                });
+            }, 3000);
+        })();
+    </script>
+</body>
+</html>

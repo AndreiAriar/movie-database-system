@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Database</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Flash Messages -->
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Header -->
+        <header>
+            <h1>Movie Database</h1>
+            <!-- Logout Button -->
+            <button class="logout-button" onclick="window.location.href='/logout'">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </header>
+
+        <!-- Search and Add Movie Section -->
+        <div class="action-section">
+            <!-- Search Form -->
+            <section class="search-section">
+                <form action="/" method="post" class="search-form">
+                    <div class="input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input 
+                            type="text" 
+                            name="search" 
+                            placeholder="Search by title or director" 
+                            aria-label="Search movies"
+                        >
+                    </div>
+                    <button type="submit" class="search-button" aria-label="Perform search">Search</button>
+                </form>
+            </section>
+
+            <!-- Add Movie Form -->
+            <section class="add-movie-section">
+                <form action="/add_movie" method="post" class="add-movie-form">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-film"></i>
+                            <input 
+                                type="text" 
+                                id="title" 
+                                name="Title" 
+                                placeholder="Enter movie title" 
+                                required
+                                list="title-tags"
+                            >
+                            <!-- Predefined Tags for Title -->
+                            <datalist id="title-tags">
+                                <option value="Inception">
+                                <option value="The Dark Knight">
+                                <option value="Forrest Gump">
+                                <option value="Pulp Fiction">
+                                <option value="Gladiator">
+                            </datalist>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="director">Director</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user-tie"></i>
+                            <input 
+                                type="text" 
+                                id="director" 
+                                name="Director" 
+                                placeholder="Enter director name" 
+                                required
+                                list="director-tags"
+                            >
+                            <!-- Predefined Tags for Director -->
+                            <datalist id="director-tags">
+                                <option value="Christopher Nolan">
+                                <option value="Steven Spielberg">
+                                <option value="Quentin Tarantino">
+                                <option value="Ridley Scott">
+                                <option value="Martin Scorsese">
+                            </datalist>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Release Date</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input 
+                                type="date" 
+                                id="date" 
+                                name="Date" 
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="add-button">Add Movie</button>
+                </form>
+            </section>
+        </div>
+
+        <!-- Movie List Table -->
+        <section class="movie-list-section">
+            <h2>Movie List</h2>
+            <div class="table-responsive">
+                <table class="movie-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Director</th>
+                            <th>Release Year</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for movie in movies %}
+                        <tr>
+                            <td>{{ movie.title }}</td>
+                            <td>{{ movie.director }}</td>
+                            <td>{{ movie.year }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button 
+                                        class="edit-button" 
+                                        onclick="openEditModal('{{ movie.id }}', '{{ movie.title }}', '{{ movie.director }}', '{{ movie.year }}')"
+                                    >
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <a 
+                                        href="{{ url_for('delete_movie', id=movie.id) }}" 
+                                        class="delete-button"
+                                        onclick="return confirm('Are you sure you want to delete this movie?');"
+                                    >
+                                        <i class="fas fa-trash"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Edit Movie Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeEditModal()">&times;</span>
+                <h2>Edit Movie</h2>
+                <form id="editMovieForm" action="" method="post">
+                    <div class="form-group">
+                        <label for="edit-title">Title</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-film"></i>
+                            <input 
+                                type="text" 
+                                id="edit-title" 
+                                name="Title" 
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-director">Director</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user-tie"></i>
+                            <input 
+                                type="text" 
+                                id="edit-director" 
+                                name="Director" 
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-date">Release Date</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input 
+                                type="date" 
+                                id="edit-date" 
+                                name="Date" 
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="update-button">Update Movie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Modal Functionality -->
+    <script>
+        // Function to open edit modal
+        function openEditModal(id, title, director, year) {
+            // Set form action dynamically
+            var editForm = document.getElementById('editMovieForm');
+            editForm.action = `/update_movie/${id}`;
+            
+            // Populate form fields
+            document.getElementById('edit-title').value = title;
+            document.getElementById('edit-director').value = director;
+            document.getElementById('edit-date').value = year;
+            
+            // Show modal
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        // Function to close edit modal
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        // Close modal if clicked outside
+        window.onclick = function(event) {
+            var modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Auto-hide flash messages
+        (function() {
+            setTimeout(function() {
+                var flashMessages = document.querySelectorAll('.flash-messages .flash');
+                flashMessages.forEach(function(message) {
+                    message.style.transition = 'opacity 0.5s';
+                    message.style.opacity = '0';
+                    setTimeout(function() {
+                        message.remove();
+                    }, 500);
+                });
+            }, 3000);
+        })();
+    </script>
+</body>
+</html>
